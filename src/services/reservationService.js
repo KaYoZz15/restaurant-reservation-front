@@ -21,3 +21,15 @@ export function cancelReservation(id) {
   })
 }
 
+export function getAllReservations() {
+  return apiRequest('/reservations', {
+    authenticated: true,
+  })
+}
+
+export function validateReservation(id) {
+  return apiRequest(`/reservations/${id}/validate`, {
+    method: 'PATCH',
+    authenticated: true,
+  })
+}

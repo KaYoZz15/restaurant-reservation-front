@@ -33,7 +33,11 @@ function Layout() {
           <NavLink to="/menu">Menu</NavLink>
           {isAuthenticated ? (
             <>
-              <NavLink to="/my-reservations">Mes réservations</NavLink>
+              {user?.role === 'admin' ? (
+                <NavLink to="/reservations">Administration</NavLink>
+              ) : (
+                <NavLink to="/my-reservations">Mes réservations</NavLink>
+              )}
               <NavLink className="nav-profile" to="/profile">
                 {user?.fname ? `Bonjour ${user.fname}` : 'Mon profil'}
               </NavLink>
