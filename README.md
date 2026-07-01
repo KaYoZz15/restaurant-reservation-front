@@ -42,6 +42,8 @@ src/
 - `/profile` : profil protégé, accessible avec un token JWT ;
 - `/my-reservations` : réservations du client connecté ;
 - `/reservations/new` : création d'une réservation.
+- `/reservations` : tableau des réservations réservé aux administrateurs ;
+- `/unauthorized` : message affiché lorsque le rôle est insuffisant.
 
 Le token est enregistré dans le `localStorage` sous la clé
 `restaurant_token`. Le service API l'ajoute aux requêtes privées avec l'en-tête

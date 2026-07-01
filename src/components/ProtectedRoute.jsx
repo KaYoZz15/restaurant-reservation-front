@@ -1,8 +1,8 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/auth'
 
-function ProtectedRoute() {
-  const { isAuthenticated, isInitializing } = useAuth()
+function ProtectedRoute({ allowedRoles }) {
+  const { isAuthenticated, isInitializing, user } = useAuth()
   const location = useLocation()
 
   if (isInitializing) {
@@ -20,6 +20,10 @@ function ProtectedRoute() {
         }}
       />
     )
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user?.role)) {
+    return <Navigate to="/unauthorized" replace />
   }
 
   return <Outlet />
