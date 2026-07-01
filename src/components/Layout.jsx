@@ -27,13 +27,20 @@ function Layout() {
         </NavLink>
 
         <nav className="main-nav" aria-label="Navigation principale">
-          <NavLink to="/">Accueil</NavLink>
+          <NavLink className="nav-home" to="/">
+            Accueil
+          </NavLink>
+          <NavLink to="/menu">Menu</NavLink>
           {isAuthenticated ? (
             <>
-              <NavLink to="/profile">
+              <NavLink to="/my-reservations">Mes réservations</NavLink>
+              <NavLink className="nav-profile" to="/profile">
                 {user?.fname ? `Bonjour ${user.fname}` : 'Mon profil'}
               </NavLink>
-              <button className="button button--small button--outline" onClick={handleLogout}>
+              <button
+                className="button button--small button--outline"
+                onClick={handleLogout}
+              >
                 Déconnexion
               </button>
             </>
