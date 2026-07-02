@@ -48,3 +48,15 @@ src/
 Le token est enregistré dans le `localStorage` sous la clé
 `restaurant_token`. Le service API l'ajoute aux requêtes privées avec l'en-tête
 `Authorization: Bearer <token>`.
+
+## Images de la page d'accueil
+
+Les visuels utilisés par la page d'accueil sont stockés dans `public/images/` :
+
+- `restaurant-hero.png` : ambiance intérieure du restaurant ;
+- `lf-logo.png` : logo officiel de La Fourchette ;
+- `dish-main.png` : plat principal ;
+- `dish-starter.png` : entrée de saison ;
+- `dish-dessert.png` : dessert au chocolat.
+
+Ces images ont été générées pour le projet et ne dépendent d'aucune URL externe.
