@@ -1,5 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL || '/api'
 const TOKEN_KEY = 'restaurant_token'
+const REQUEST_TIMEOUT = 15000
 
 export class ApiError extends Error {
   constructor(message, status = 0, data = null) {
@@ -54,12 +55,16 @@ export async function apiRequest(endpoint, options = {}) {
     headers.set('Authorization', `Bearer ${token}`)
   }
 
+  const controller = new AbortController()
+  const timeoutId = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT)
   let response
+  let data
 
   try {
     response = await fetch(buildUrl(endpoint), {
       ...fetchOptions,
       headers,
+      signal: controller.signal,
       body:
         body instanceof FormData || typeof body === 'string'
           ? body
@@ -67,13 +72,20 @@ export async function apiRequest(endpoint, options = {}) {
             ? JSON.stringify(body)
             : undefined,
     })
-  } catch {
+    data = await parseResponse(response)
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new ApiError(
+        "Le serveur met trop de temps à répondre. Veuillez réessayer.",
+      )
+    }
+
     throw new ApiError(
       "Impossible de joindre l'API. Vérifiez que le serveur est démarré.",
     )
+  } finally {
+    window.clearTimeout(timeoutId)
   }
-
-  const data = await parseResponse(response)
 
   if (!response.ok) {
     const details = Array.isArray(data?.errors)
