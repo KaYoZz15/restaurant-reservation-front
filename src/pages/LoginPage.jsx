@@ -11,9 +11,10 @@ function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [error, setError] = useState(location.state?.error || '')
   const [isLoading, setIsLoading] = useState(false)
+  const destination = location.state?.from || '/profile'
 
   if (isAuthenticated) {
-    return <Navigate to="/profile" replace />
+    return <Navigate to={destination} replace />
   }
 
   function handleChange(event) {
@@ -28,7 +29,7 @@ function LoginPage() {
 
     try {
       await login(formData)
-      navigate(location.state?.from || '/profile', { replace: true })
+      navigate(destination, { replace: true })
     } catch (requestError) {
       setError(requestError.message)
     } finally {
