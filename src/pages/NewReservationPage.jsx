@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Alert from '../components/Alert'
 import FormField from '../components/FormField'
 import { useAuth } from '../context/auth'
+import { getAvailability } from '../services/availabilityService'
 import { createReservation } from '../services/reservationService'
 
 function getToday() {
@@ -28,10 +29,71 @@ function NewReservationPage() {
   })
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [availableSlots, setAvailableSlots] = useState([])
+  const [availabilityMessage, setAvailabilityMessage] = useState('')
+  const [isLoadingAvailability, setIsLoadingAvailability] = useState(false)
+
+  useEffect(() => {
+    const selectedDate = formData.reservation_date
+
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(selectedDate) ||
+      selectedDate < today
+    ) {
+      setAvailableSlots([])
+      setAvailabilityMessage('')
+      return
+    }
+
+    let isActive = true
+    setIsLoadingAvailability(true)
+    setAvailableSlots([])
+    setAvailabilityMessage('')
+
+    getAvailability(selectedDate)
+      .then((response) => {
+        if (!isActive) return
+
+        const slots = Array.isArray(response.slots)
+          ? response.slots
+              .filter((slot) => slot.available)
+              .map((slot) => String(slot.time).slice(0, 5))
+          : []
+
+        setAvailableSlots(slots)
+
+        if (slots.length === 0) {
+          setAvailabilityMessage(
+            response.is_closed
+              ? response.reason || 'Le restaurant est fermé à cette date.'
+              : 'Aucun créneau n’est disponible pour cette date.',
+          )
+        }
+      })
+      .catch((requestError) => {
+        if (isActive) {
+          setAvailabilityMessage(
+            requestError.message ||
+              'Impossible de charger les créneaux disponibles.',
+          )
+        }
+      })
+      .finally(() => {
+        if (isActive) setIsLoadingAvailability(false)
+      })
+
+    return () => {
+      isActive = false
+    }
+  }, [formData.reservation_date, today])
 
   function handleChange(event) {
     const { name, value } = event.target
-    setFormData((current) => ({ ...current, [name]: value }))
+    setFormData((current) => ({
+      ...current,
+      [name]: value,
+      ...(name === 'reservation_date' ? { reservation_time: '' } : {}),
+    }))
   }
 
   async function handleSubmit(event) {
@@ -138,15 +200,47 @@ function NewReservationPage() {
               onChange={handleChange}
               required
             />
-            <FormField
-              id="reservation_time"
-              label="Heure *"
-              type="time"
-              step="1800"
-              value={formData.reservation_time}
-              onChange={handleChange}
-              required
-            />
+            <div className="form-field">
+              <label htmlFor="reservation_time">Heure *</label>
+              <select
+                id="reservation_time"
+                name="reservation_time"
+                value={formData.reservation_time}
+                onChange={handleChange}
+                disabled={
+                  !formData.reservation_date ||
+                  isLoadingAvailability ||
+                  availableSlots.length === 0
+                }
+                required
+              >
+                <option value="">
+                  {isLoadingAvailability
+                    ? 'Chargement des créneaux...'
+                    : formData.reservation_date
+                      ? 'Choisir un créneau'
+                      : 'Choisissez d’abord une date'}
+                </option>
+                {availableSlots.map((slot) => (
+                  <option key={slot} value={slot}>
+                    {slot}
+                  </option>
+                ))}
+              </select>
+              {isLoadingAvailability && (
+                <p className="availability-message" role="status">
+                  Recherche des créneaux disponibles...
+                </p>
+              )}
+              {!isLoadingAvailability && availabilityMessage && (
+                <p
+                  className="availability-message availability-message--error"
+                  role="alert"
+                >
+                  {availabilityMessage}
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="form-field">
