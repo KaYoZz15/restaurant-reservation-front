@@ -65,15 +65,42 @@ Ces images ont été générées pour le projet et ne dépendent d'aucune URL ex
 
 ### Kevin
 
-- Partie 1 : PRR-17, PRR-18 et PRR-19 ;
-- Partie 2 : PRR-26.
+- [PRR-17](https://bluevalley-dev.atlassian.net/browse/PRR-17) — Mise en
+  place de la structure du front React/Vite et du service commun pour les
+  appels à l'API (Partie 1).
+- [PRR-18](https://bluevalley-dev.atlassian.net/browse/PRR-18) — Création
+  des pages d'inscription et de connexion reliées aux endpoints
+  `POST /signup` et `POST /login` (Partie 1).
+- [PRR-19](https://bluevalley-dev.atlassian.net/browse/PRR-19) — Gestion
+  du token JWT côté client : stockage, persistance, envoi dans les requêtes
+  privées et déconnexion (Partie 1).
+- [PRR-26](https://bluevalley-dev.atlassian.net/browse/PRR-26) — Mise en
+  place de React Router, des routes publiques et privées et de la protection
+  des pages selon l'authentification et le rôle (Partie 2).
 
 ### Arthur
 
-- Partie 1 : PRR-20, PRR-21 et PRR-22 ;
-- Partie 2 : PRR-27.
+- [PRR-20](https://bluevalley-dev.atlassian.net/browse/PRR-20) — Affichage
+  du menu du restaurant depuis l'API, avec regroupement des plats par
+  catégorie (Partie 1).
+- [PRR-21](https://bluevalley-dev.atlassian.net/browse/PRR-21) — Création
+  de la page permettant au client connecté de consulter ses réservations
+  (Partie 1).
+- [PRR-22](https://bluevalley-dev.atlassian.net/browse/PRR-22) — Création
+  du formulaire de réservation et ajout de l'annulation d'une réservation
+  client (Partie 1).
+- [PRR-27](https://bluevalley-dev.atlassian.net/browse/PRR-27) — Création
+  de l'`AuthContext` pour centraliser l'utilisateur, son rôle, le token JWT,
+  la connexion et la déconnexion (Partie 2).
 
 ### Adam
 
-- Partie 1 : PRR-23 et PRR-24 ;
-- Partie 2 : PRR-28.
+- [PRR-23](https://bluevalley-dev.atlassian.net/browse/PRR-23) — Création
+  de l'espace administrateur affichant toutes les réservations du restaurant
+  (Partie 1).
+- [PRR-24](https://bluevalley-dev.atlassian.net/browse/PRR-24) — Ajout des
+  actions permettant à l'administrateur de valider ou d'annuler une
+  réservation (Partie 1).
+- [PRR-28](https://bluevalley-dev.atlassian.net/browse/PRR-28) — Affichage
+  dynamique des créneaux disponibles selon la date choisie lors de la
+  création d'une réservation (Partie 2).
