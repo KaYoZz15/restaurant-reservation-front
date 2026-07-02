@@ -30,6 +30,9 @@ function SignupPage() {
 
   async function handleSubmit(event) {
     event.preventDefault()
+
+    if (isLoading) return
+
     setError('')
 
     if (formData.password.length < 6) {
@@ -54,7 +57,11 @@ function SignupPage() {
         },
       })
     } catch (requestError) {
-      setError(requestError.message)
+      setError(
+        requestError.status === 409
+          ? 'Un compte existe déjà avec cette adresse e-mail.'
+          : requestError.message,
+      )
     } finally {
       setIsLoading(false)
     }
