@@ -60,3 +60,20 @@ Les visuels utilisés par la page d'accueil sont stockés dans `public/images/` 
 - `dish-dessert.png` : dessert au chocolat.
 
 Ces images ont été générées pour le projet et ne dépendent d'aucune URL externe.
+
+## Répartition du travail
+
+### Kevin
+
+- Partie 1 : PRR-17, PRR-18 et PRR-19 ;
+- Partie 2 : PRR-26.
+
+### Arthur
+
+- Partie 1 : PRR-20, PRR-21 et PRR-22 ;
+- Partie 2 : PRR-27.
+
+### Adam
+
+- Partie 1 : PRR-23 et PRR-24 ;
+- Partie 2 : PRR-28.
